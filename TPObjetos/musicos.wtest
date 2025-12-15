@@ -1,0 +1,61 @@
+import main.instrumentos.*
+import main.musicos.*
+
+describe "Johann" {
+  test "Johann es feliz con una trompeta Jupiter (que es cara)" {
+    assert.that(johann.esFeliz())
+  }
+
+  test "Johann no es feliz con un violín Stagg (sin trémolos, que no es cara)" {
+    johann.instrumento(violinStagg)
+    assert.notThat(johann.esFeliz())
+  }
+}
+
+describe "Wolfgang" {
+  test "Wolfgang es feliz si Johann tiene una trompeta Jupiter" {
+    assert.that(wolfgang.esFeliz()) 
+  }
+
+  test "Wolfgang no es feliz si Johann tiene un violín Stagg (sin trémolos)" {
+    johann.instrumento(violinStagg)
+    assert.notThat(wolfgang.esFeliz())
+  }
+}
+
+describe "Giuseppe" {
+  test "Giuseppe es feliz con una guitarra Fender (que está siempre afinada)" {
+    assert.that(giuseppe.esFeliz())
+  }
+
+  test "Giuseppe no es feliz con un piano Bechstein en una habitación de un metro cuadrado" {
+    pianoBechstein.moverDeHabitacion(1, 1)
+    giuseppe.instrumento(pianoBechstein)
+    assert.notThat(giuseppe.esFeliz())
+  }
+}
+
+describe "Maddalena" {
+  test "Maddalena con el violín Stagg sin trémolos es feliz (costo 20, es par)" {
+    assert.that(maddalena.esFeliz())
+  }
+
+  test "Maddalena con el violín Stagg con un trémolo no es feliz (costo 19, es impar)" {
+    violinStagg.tremolo(1)
+    assert.notThat(maddalena.esFeliz())
+  }
+}
+
+describe "Asociacion musical" {
+  
+  const asociacionMusical = [johann, wolfgang, giuseppe, maddalena] 
+  test "Si tenemos una asociación donde están Johann con un violín Stagg, Wolfgang, Giuseppe con su guitarra Fender 
+  original y Maddalena con su violín Stagg original, los músicos felices deben ser Giuseppe y Maddalena" {    
+    johann.instrumento(violinStagg)
+    const asociacionFiltrada = asociacionMusical.filter({musico => musico.esFeliz()}) 
+
+    assert.equals(2, asociacionFiltrada.size())
+    assert.that(asociacionFiltrada.contains(giuseppe))
+    assert.that(asociacionFiltrada.contains(maddalena))
+  }
+}

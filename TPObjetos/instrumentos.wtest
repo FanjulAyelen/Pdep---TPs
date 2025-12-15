@@ -1,0 +1,120 @@
+import main.instrumentos.*
+describe "Guitarra Fender" {
+
+  test "una Fender está afinada" {
+    assert.that(guitarraFender.estaAfinada())
+  }
+  test "el costo de una Fender negra es 15" {
+    assert.equals(15, guitarraFender.costo())
+  }
+  test "el costo de una Fender roja es 10" {
+    guitarraFender.color("rojo")
+    assert.equals(10, guitarraFender.costo())
+  }
+  test "una Fender es valiosa" {
+    assert.that(guitarraFender.esValiosa())
+  }
+}
+
+describe "Trompeta Jupiter" {
+    test "Una trompeta Júpiter a una temperatura ambiente de 20 grados está afinada" {
+    trompetaJupiter.temperaturaAmbiente(20)
+    assert.that(trompetaJupiter.estaAfinada())
+  }
+
+  test "Una trompeta Júpiter a una temperatura ambiente de 25 grados está afinada" {
+    trompetaJupiter.temperaturaAmbiente(25)
+    assert.that(trompetaJupiter.estaAfinada()) 
+  }
+
+  test "Una trompeta Júpiter a una temperatura ambiente de 19 grados no está afinada" {
+    trompetaJupiter.temperaturaAmbiente(19)
+    assert.notThat(trompetaJupiter.estaAfinada())  
+  }
+
+  test "Una trompeta Júpiter a una temperatura ambiente de 26 grados no está afinada" {
+    trompetaJupiter.temperaturaAmbiente(26)
+    assert.notThat(trompetaJupiter.estaAfinada())   
+  } 
+
+    test "Una trompeta Júpiter a una temperatura ambiente de 19 grados, si la afinamos, pasa a estar afinada" {
+    trompetaJupiter.temperaturaAmbiente(19)
+    trompetaJupiter.afinar(2)
+    assert.that(trompetaJupiter.estaAfinada())   
+  } 
+
+  test "La trompeta cuesta sin sordina 30 chelines" {
+    trompetaJupiter.tieneSordina(false)
+    assert.equals(30, trompetaJupiter.costo())
+  }
+
+  test "La trompeta cuesta con sordina 35 chelines" {
+    trompetaJupiter.tieneSordina(true)
+    assert.equals(35, trompetaJupiter.costo())
+  }
+
+  test "la trompeta no es valiosa" {
+    assert.notThat(trompetaJupiter.esValiosa())
+  }
+}
+
+describe "Piano Bechstein" {
+  test "El piano en una habitación de 5x5 está afinado" {
+    assert.that(pianoBechstein.estaAfinada())
+  }
+  test "El piano en una habitación chica (de 20 metros cuadrados) no está afinado" {
+    pianoBechstein.moverDeHabitacion(4, 5)
+    assert.notThat(pianoBechstein.estaAfinada())
+  }
+
+  test "El costo del piano en la habitación de 5x5 es de 10" {
+    assert.equals(10, pianoBechstein.costo())
+  }
+
+  test "El piano es valioso en la habitación inicial de 5x5" {
+    assert.that(pianoBechstein.esValiosa())
+  }
+
+  test "El piano movido a una habitación chica (de 20 metros cuadrados) no es valioso" {
+    pianoBechstein.moverDeHabitacion(4, 5)
+    assert.notThat(pianoBechstein.esValiosa())
+  }
+}
+
+describe "Violin Stagg" {
+  test "El violín Stagg comienza afinado (0 trémolos)" {
+    assert.that(violinStagg.estaAfinada())
+  }
+
+  test "El violín con 9 trémolos todavía está afinado" {    
+    violinStagg.tremolo(9)
+    assert.that(violinStagg.estaAfinada())  
+  }
+
+  test "El violín luego de 10 trémolos exactos, queda desafinado" {
+    violinStagg.tremolo(10)
+    assert.notThat(violinStagg.estaAfinada()) 
+  }
+  test "El violín tiene un costo inicial de 20 chelines (sin trémolos)" {
+    assert.equals(20, violinStagg.costo())
+  }
+
+  test "Con exactamente 2 trémolos, el violín tiene un costo de 18 chelines" {
+    violinStagg.tremolo(2)
+    assert.equals(18, violinStagg.costo())
+  }
+
+  test "Con 10 trémolos, el violín tiene un costo de 15 chelines (nunca baja de 15)" {
+    violinStagg.tremolo(10)
+    assert.equals(15, violinStagg.costo())
+  }
+
+  test "Pintado con “laca acrílica”, el violín es valioso" {
+    assert.that(violinStagg.esValiosa())
+  }
+
+  test "Pintado con “látex satinado”, el violín no es valioso" {
+    violinStagg.pintura("látex satinado")
+    assert.notThat(violinStagg.esValiosa())
+  }
+}
